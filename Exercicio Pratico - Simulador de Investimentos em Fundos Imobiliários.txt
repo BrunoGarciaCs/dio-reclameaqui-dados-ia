@@ -1,0 +1,101 @@
+🏢 Simulador de Investimentos em Fundos Imobiliários (FIIs)Projeto Prático: 
+Formação de Dados & IA (DIO em parceria com o Reclame AQUI)
+Autor: Bruno Cesar da Silva Garcia
+Formação: Bacharelado em Ciência da Computação (UNIGRANDE)
+
+
+
+📌 Visão Geral do Projeto
+Este repositório contém a ferramenta interativa criada no Microsoft Excel 365 para simulação de investimentos de longo prazo em Fundos Imobiliários (FIIs). O projeto 
+foi desenvolvido como parte do desafio prático do curso de Dados e IA da DIO em parceria com o Reclame AQUI, ministrado pelo Expert Felipe Aguiar (Felipão).
+
+A ferramenta foi projetada com a experiência do usuário (UI/UX) em mente, funcionando como um "aplicativo de planilha" que esconde a complexidade de fórmulas e permite
+ a tomada de decisão financeira de acordo com o perfil do investidor.
+
+
+
+🎯 As 5 Perguntas de Negócio Respondidas
+A ferramenta responde de forma direta e automatizada às cinco perguntas fundamentais do investidor, organizadas no painel principal:
+Quanto devo investir por mês?
+Localização: Bloco Investimento Mensal (Célula editável pelo usuário).
+
+Por quantos anos?
+Localização: Bloco Investimento Mensal (Prazo em anos escolhido pelo usuário).
+
+Qual a taxa de rendimento mensal?
+Localização: Bloco Investimento Mensal e Configurações (Percentual estimado de dividendos mensais).
+
+Quanto de patrimônio acumulado terei?
+Localização: Resultado principal destacado no bloco central.
+
+Qual o valor dos dividendos mensais acumulados?
+Localização: Resultado final calculado com base no patrimônio acumulado e na taxa mensal.
+
+
+
+🧮 Lógica de Fórmulas e Cálculos
+1. Função VF (Valor Futuro)
+A função VF foi utilizada para calcular a projeção de patrimônio acumulado no tempo a partir dos aportes mensais constantes sob juros compostos.
+Fórmula no Excel: -VF(taxa_mensal; anos * 12; aporte_mensal)
+Como funciona:
+taxa_mensal: Rendimento estimado por mês.
+nper (anos * 12): Quantidade total de meses do investimento.
+pgto (aporte_mensal): O valor reinvestido todos os meses (usa-se o sinal negativo - antes da função para retornar um valor final positivo).
+
+
+2. Projeção dos Dividendos Mensais
+Fórmula: Patrimônio Acumulado * Taxa Mensal
+Descrição: Calcula a renda passiva mensal gerada ao término do período estipulado.
+
+
+
+
+3. PROCV com Chave Composta (Divisão por Perfil)
+Para trazer dinamicamente o percentual sugerido para cada um dos 6 tipos de FIIs (Papel, Tijolo, Híbridos, FoFs, Desenvolvimento e Hotelaria) com base no perfil 
+selecionado (Conservador, Moderado, Arrojado), foi utilizada uma Chave Composta na aba de apoio.
+Estrutura da Chave Composta: =Perfil&TipoFundo (exemplo: "ConservadorPAPEL").
+
+Fórmula aplicada:
+=PROCV(Perfil_Selecionado & Tipo_Fundo; Tabela_Apoio; Coluna_Percentual; FALSO)
+Resultado: Garante que a planilha busque o percentual correto em uma matriz sem erros de correspondência.
+
+
+
+
+🏷️ Intervalos Nomeados Criados
+Para deixar as fórmulas limpas, auditáveis e legíveis (evitando referências diretas de células como $C$5), foram criados os seguintes intervalos nomeados no Gerenciador 
+de Nomes do Excel:
+
+Nome do Intervalo          Descrição / Célula de Origem
+salario                    Valor bruto do salário base informado
+rendimento_carteira        Taxa de rendimento esperada da carteira
+sugestao_aporte            Cálculo da sugestão de 30% do salário
+aporte_mensal              Valor mensal definido para o investimento
+prazo_anos                 Período de investimento em anos
+taxa_mensal                Percentual de rendimento mensal aplicado
+perfil_investidor          Seleção do perfil (Validação de Dados)
+
+
+📊 Perfis de Investidor e Distribuição de Ativos
+A ferramenta divide o aporte em 6 categorias de Fundos Imobiliários. Cada perfil soma 100% de distribuição:
+
+Perfil de FII    Conservador    Moderado    Arrojado  
+Pape             l30%           20%         15%
+Tijolo           50%            40%         25%  
+Híbrido          10%            20%         20% 
+FoFs             10%            10%         15% 
+Desenvolvimento  0%             5%          15% 
+Hotelaria        0%             5%          10% 
+TOTAL            100%           100%        100%
+
+Origem dos percentuais: Elaborados com base em boas práticas de diversificação de mercado para controle de volatilidade versus busca por retorno (Yield).
+
+
+
+🚀 Diferenciais e Evoluções Aplicadas
+Em relação à ferramenta base apresentada durante o curso, foram adicionadas as seguintes melhorias:
+
+1. Design Persona / Personalizado: Criação de um banner visual exclusivo no topo com identidade de consultoria (Bruno Garcia Investimentos).
+2. Gráfico de Pizza Dinâmico: Gráfico interativo que atualiza a alocação de ativos em tempo real sempre que o usuário altera o perfil na lista suspensa.
+3. Projeções de Longo Prazo: Tabela comparativa com cenários de 2, 5, 10, 15, 20 e 30 anos com cálculo automático de patrimônio acumulado e proventos mensais.
+4. Proteção e UX: Linhas de grade ocultas, células de input claramente identificadas e travamento visual das células com fórmulas.
